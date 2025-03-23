@@ -252,7 +252,9 @@ export default function ChatWidget() {
 
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
-        content: response,
+        content: serviceRequestInfo.isServiceRequest
+          ? "Please fill out the form to schedule your service request."
+          : response,
         sender: "assistant",
         timestamp: new Date(),
       };
@@ -429,7 +431,7 @@ export default function ChatWidget() {
                         }`}
                       >
                         <div
-                          className={`max-w-[80%] text-[12px] rounded-xl p-3 shadow-md ${
+                          className={`max-w-[80%] text-[14px] rounded-xl p-3 shadow-md ${
                             message.sender === "user"
                               ? "bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-br-sm"
                               : "bg-white border border-gray-100 rounded-bl-sm"
@@ -437,14 +439,14 @@ export default function ChatWidget() {
                         >
                           {message.content}
                           <div
-                            className={`text-sm mt-1 ${
+                            className={`text-xs mt-1 ${
                               message.sender === "user"
                                 ? "text-blue-100"
                                 : "text-gray-400"
                             }`}
                           >
                             <div
-                              className={`text-sm mt-1 ${
+                              className={`text-xs mt-1 ${
                                 message.sender === "user"
                                   ? "text-right"
                                   : "text-left"
