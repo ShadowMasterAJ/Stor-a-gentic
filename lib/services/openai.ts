@@ -40,26 +40,16 @@ export async function getChatCompletion(
     const messages = [
       {
         role: "system",
-        content: `You are an AI assistant that analyzes customer messages to detect service requests. 
-          Extract the following information from the message:
-          1. Service type (collection, delivery, inquiry, or other)
-          2. Customer name (if provided)
-          3. Customer email (if provided)
-          4. Customer phone (if provided)
-          5. Preferred date (if provided)
-          6. Description of the request
-          
-          Respond in JSON format only with these fields: 
-          {"isServiceRequest": boolean, "type": string, "customerName": string, "customerEmail": string, "customerPhone": string, "preferredDate": string, "description": string}
-          
-          If the message is not a service request, set isServiceRequest to false and leave other fields empty.`,
+        content: `You are a helpful storage facility assistant. You help customers with storage unit sizes, pricing, and scheduling. Be friendly and professional. If a customer asks about scheduling a collection or delivery, offer to create a service request for them and ask for their name, email, and preferred date.${faqContent}`,
       },
       ...chatHistory,
+
       {
         role: "user",
         content: message,
       },
     ];
+
     const completion = await openai.chat.completions.create({
       messages:
         messages as OpenAI.Chat.Completions.ChatCompletionMessageParam[],
